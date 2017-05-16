@@ -1,0 +1,8 @@
+# SiteConfig:
+#   extensions:
+#     - SiteBannerSiteConfigExtension
+# SiteBanner:
+#   required_permission_codes:
+#     - ADMIN
+#   banner_types: [identifier: title]
+#   embargo_enabled: true
