@@ -1,5 +1,5 @@
 {
-    "name": "silverstripe/sitebanner",
+    "name": "nzta/silverstripe-sitebanner",
     "description": "Site-wide banners activated through the CMS",
     "type": "silverstripe-module",
     "homepage": "https://github.com/NZTA/silverstripe-sitebanner",

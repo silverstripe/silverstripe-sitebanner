@@ -21,7 +21,7 @@ of the page they're viewing.
 
 ## Installation
 
-	composer require silverstripe/sitebanner
+	composer require nzta/silverstripe-sitebanner
 
 ## Configuration
 
