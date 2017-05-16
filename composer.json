@@ -17,6 +17,6 @@
     },
     "suggest": {
         "heyday/silverstripe-versioneddataobjects": "Allows previewing of site banners",
-        "undefinedoffset/sortablegridfield": "Allows sorting of site banners",
+        "undefinedoffset/sortablegridfield": "Allows sorting of site banners"
     }
 }
