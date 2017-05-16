@@ -1,5 +1,7 @@
 # Site Wide Banners
 
+[![Build Status](https://secure.travis-ci.org/NZTA/silverstripe-sitebanner.png?branch=master)](http://travis-ci.org/NZTA/silverstripe-sitebanner)
+
 Allows CMS authors to create site-wide banners,
 to alert visitors of important information regardless
 of the page they're viewing.
