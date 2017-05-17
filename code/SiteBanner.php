@@ -42,6 +42,10 @@ class SiteBanner extends DataObject
 
     private static $default_sort = 'Sort';
 
+    private static $summary_fields = [
+        'Content' => 'Content.Summary'
+    ];
+
     public function fieldLabels($includerelations = true)
     {
         return array_merge(
