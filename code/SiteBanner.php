@@ -40,6 +40,8 @@ class SiteBanner extends DataObject
      */
     private static $allow_html = true;
 
+    private static $default_sort = 'Sort';
+
     public function fieldLabels($includerelations = true)
     {
         return array_merge(
