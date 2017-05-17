@@ -16,6 +16,9 @@ class SiteBannerSiteConfigExtension extends DataExtension
         $grid = GridField::create('SiteBanners', null, SiteBanner::get())
             ->setConfig($gridConfig);
 
+        $gridConfig->removeComponentsByType('GridFieldPaginator');
+        $gridConfig->removeComponentsByType('GridFieldPageCount');
+
         if (class_exists('GridFieldSortableRows')) {
             $grid->getConfig()->addComponent(new GridFieldSortableRows('Sort'));
         }
