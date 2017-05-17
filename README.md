@@ -19,6 +19,12 @@ of the page they're viewing.
  * Optional: Sorting through [sortablegridfield](https://github.com/UndefinedOffset/SortableGridField)
  * Support for [subsites](https://github.com/silverstripe/silverstripe-subsites)
 
+## Screenshot
+
+![CMS Preview](docs/_img/cms.png)
+
+CMS editing screen (with [versioneddataobjects](https://github.com/heyday/silverstripe-versioneddataobjects) enabled)
+
 ## Installation
 
 	composer require nzta/silverstripe-sitebanner
