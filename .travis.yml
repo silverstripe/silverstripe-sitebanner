@@ -21,4 +21,4 @@ before_script:
   - composer install
 
 script:
-  - vendor/bin/phpunit sitebanner/tests
+  - vendor/bin/phpunit silverstripe-sitebanner/tests
