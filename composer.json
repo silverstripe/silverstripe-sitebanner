@@ -10,13 +10,16 @@
     },
     "require": {
         "silverstripe/framework": "~4.0",
-		"silverstripe/cms": "~4.0"
+        "silverstripe/cms": "~4.0"
     },
     "require-dev": {
         "phpunit/PHPUnit": "~4.8"
     },
     "extra": {
-        "installer-name": "sitebanner"
+        "installer-name": "sitebanner",
+        "branch-alias": {
+            "dev-master": "2.0.x-dev"
+        }
     },
     "autoload": {
         "psr-4": {
