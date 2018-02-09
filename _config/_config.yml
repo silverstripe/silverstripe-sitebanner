@@ -1,7 +1,7 @@
-# SiteConfig:
+# SilverStripe\SiteConfig\SiteConfig:
 #   extensions:
-#     - SiteBannerSiteConfigExtension
-# SiteBanner:
+#     - NZTA\SiteBanner\Extensions\SiteConfigExtension
+# NZTA\SiteBanner\Models\SiteBanner:
 #   required_permission_codes:
 #     - ADMIN
 #   banner_types: [identifier: title]

@@ -1,8 +1,20 @@
 <?php
+
+namespace NZTA\SiteBanner\Extensions;
+
+use NZTA\SiteBanner\Models\SiteBanner;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
+use SilverStripe\ORM\ArrayList;
+use SilverStripe\ORM\DataExtension;
+
 /**
  * Allows editing of site banner data "globally".
+ *
+ * @property \SilverStripe\SiteConfig\SiteConfig|\NZTA\SiteBanner\Extensions\SiteConfigExtension $owner
  */
-class SiteBannerSiteConfigExtension extends DataExtension
+class SiteConfigExtension extends DataExtension
 {
 
     public function updateCMSFields(FieldList $fields)
@@ -19,13 +31,8 @@ class SiteBannerSiteConfigExtension extends DataExtension
         $gridConfig->removeComponentsByType('GridFieldPaginator');
         $gridConfig->removeComponentsByType('GridFieldPageCount');
 
-        if (class_exists('GridFieldSortableRows')) {
-            $grid->getConfig()->addComponent(new GridFieldSortableRows('Sort'));
-        }
-
-        if (class_exists('Heyday\VersionedDataObjects\VersionedDataObjectDetailsForm')) {
-            $gridConfig->removeComponentsByType('GridFieldDetailForm');
-            $gridConfig->addComponent(new Heyday\VersionedDataObjects\VersionedDataObjectDetailsForm());
+        if (class_exists('Symbiote\GridFieldExtensions\GridFieldOrderableRows')) {
+            $grid->getConfig()->addComponent(new \Symbiote\GridFieldExtensions\GridFieldOrderableRows('Sort'));
         }
 
         $fields->addFieldToTab(
@@ -37,7 +44,7 @@ class SiteBannerSiteConfigExtension extends DataExtension
     /**
      * Get all displayable site banners
      *
-     * @return DataList
+     * @return ArrayList
      */
     public function getSiteBanners()
     {
