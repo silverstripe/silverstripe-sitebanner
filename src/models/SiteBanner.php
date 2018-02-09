@@ -1,13 +1,36 @@
 <?php
+
+namespace NZTA\SiteBanner\Models;
+
+use DateTime;
+use SilverStripe\Forms\DropdownField;
+use SilverStripe\Forms\TextField;
+use SilverStripe\ORM\DataObject;
+use SilverStripe\ORM\FieldType\DBDatetime;
+use SilverStripe\Security\Member;
+use SilverStripe\Security\Permission;
+use SilverStripe\Versioned\Versioned;
+
+/**
+ * Class \NZTA\SiteBanner\Models\SiteBanner
+ *
+ * @property string $Content
+ * @property string $Type
+ * @property string $StartDate
+ * @property string $EndDate
+ * @property int $Sort
+ * @property int $Version
+ * @mixin \SilverStripe\Versioned\Versioned
+ */
 class SiteBanner extends DataObject
 {
 
     private static $db = [
-        'Content'     => 'HTMLText', // see getContent()
-        'Type'        => 'Varchar(32)',
-        'StartDate'   => 'SS_Datetime',
-        'EndDate'     => 'SS_Datetime',
-        'Sort'        => 'Int', // only used when 'sortablegridfield' is installed
+        'Content'   => 'HTMLText', // see getContent()
+        'Type'      => 'Varchar(32)',
+        'StartDate' => 'Datetime',
+        'EndDate'   => 'Datetime',
+        'Sort'      => 'Int', // only used when 'sortablegridfield' is installed
     ];
 
     /**
@@ -15,9 +38,9 @@ class SiteBanner extends DataObject
      * Type identifiers are commonly used for CSS classes.
      */
     private static $types = [
-        'info' => 'Info',
+        'info'    => 'Info',
         'warning' => 'Warning',
-        'alert' => 'Alert'
+        'alert'   => 'Alert'
     ];
 
     /**
@@ -46,33 +69,38 @@ class SiteBanner extends DataObject
         'Content' => 'Content.Summary'
     ];
 
+    private static $table_name = 'SiteBanner';
+
+    private static $extensions = [
+        Versioned::class
+    ];
+
     public function fieldLabels($includerelations = true)
     {
         return array_merge(
             parent::fieldLabels($includerelations),
             [
-                'Content' => _t('SiteBanner.ContentFieldLabel', 'Banner content'),
-                'Type' => _t('SiteBanner.TypeFieldLabel', 'Banner type'),
+                'Content'   => _t('SiteBanner.ContentFieldLabel', 'Banner content'),
+                'Type'      => _t('SiteBanner.TypeFieldLabel', 'Banner type'),
                 'StartDate' => _t('SiteBanner.StartDateFieldLabel', 'Start date / time'),
-                'EndDate' => _t('SiteBanner.EndDateFieldLabel', 'End date / time')
+                'EndDate'   => _t('SiteBanner.EndDateFieldLabel', 'End date / time')
             ]
         );
     }
 
     /**
-     * @param $type String
-     * @return String
+     * @return array
      */
     public function getTypeSource()
     {
         $localised = [
-            'info' => _t('SiteBanner.TypeLabelInfo', 'Info'),
+            'info'    => _t('SiteBanner.TypeLabelInfo', 'Info'),
             'warning' => _t('SiteBanner.TypeLabelWarning', 'Warning'),
-            'alert' => _t('SiteBanner.TypeLabelAlert', 'Alert')
+            'alert'   => _t('SiteBanner.TypeLabelAlert', 'Alert')
         ];
 
         $source = [];
-        foreach ($this->config()->types as $type => $title) {
+        foreach (static::config()->get('types') as $type => $title) {
             $source[$type] = array_key_exists($type, $localised) ? $localised[$type] : $title;
         }
 
@@ -86,7 +114,7 @@ class SiteBanner extends DataObject
         $fields->removeByName('Sort');
 
         $fields->dataFieldByName('Content')
-            ->setRows(2) // indicate to authors that this should be kept short
+            ->setRows(2)// indicate to authors that this should be kept short
             ->setDescription(_t(
                 'SiteBanner.ContentFieldDesc',
                 'Appears at the top of each page on the site. The banner will not display until content has been added.'
@@ -101,26 +129,18 @@ class SiteBanner extends DataObject
             $fields->replaceField('Content', new TextField('Content', $this->fieldLabel('Content')));
         }
 
-        if (SiteBanner::config()->embargo_enabled) {
+        if (static::config()->embargo_enabled) {
             $startDate = $fields->dataFieldByName('StartDate');
             $startDate->setDescription(_t(
                 'SiteBanner.StartDateFieldDesc',
                 'When to start showing the banner. Leave this blank to start showing the banner immediately.'
             ));
-            $startDate->getDateField()
-                ->setConfig('showcalendar', 1)->setDescription('Date');
-            $startDate->getTimeField()
-                ->setAttribute('placeholder', '12:30 pm')->setDescription('Time e.g. 12:30 pm');
 
             $endDate = $fields->dataFieldByName('EndDate');
             $endDate->setDescription(_t(
                 'SiteBanner.EndDateFieldDesc',
                 'When to stop showing the banner. Leave this blank to show the banner indefinitely.'
             ));
-            $endDate->getDateField()
-                ->setConfig('showcalendar', 1)->setDescription('Date');
-            $endDate->getTimeField()
-                ->setAttribute('placeholder', '12:30 pm')->setDescription('Time e.g. 12:30 pm');
         } else {
             $fields->removeByName('StartDate');
             $fields->removeByName('EndDate');
@@ -150,26 +170,24 @@ class SiteBanner extends DataObject
 
         $startDate = new DateTime($this->StartDate);
         $endDate = new DateTime($this->EndDate);
-        $now = new DateTime(SS_Datetime::now()->Format(DateTime::ISO8601));
+        $now = new DateTime(DBDatetime::now()->Format(DBDatetime::ISO_DATETIME));
 
         // Check if the current time falls between the start and end dates.
-        if ((!$this->StartDate || $startDate <= $now) && (!$this->EndDate || $endDate >= $now)) {
-            return true;
-        }
-
-        return false;
+        return ((!$this->StartDate || $startDate <= $now) && (!$this->EndDate || $endDate >= $now));
     }
 
     /**
      * @param null|Member $member
+     * @param array $context
      * @return bool|int
      */
-    public function canCreate($member = null)
+    public function canCreate($member = null, $context = [])
     {
         $extended = $this->extendedCan(__FUNCTION__, $member);
         if ($extended !== null) {
             return $extended;
         }
+
         return Permission::checkMember($member, $this->config()->required_permission_codes);
     }
 
@@ -183,6 +201,7 @@ class SiteBanner extends DataObject
         if ($extended !== null) {
             return $extended;
         }
+
         return Permission::checkMember($member, $this->config()->required_permission_codes);
     }
 
@@ -196,6 +215,7 @@ class SiteBanner extends DataObject
         if ($extended !== null) {
             return $extended;
         }
+
         return Permission::checkMember($member, $this->config()->required_permission_codes);
     }
 }

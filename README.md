@@ -14,12 +14,14 @@ of the page they're viewing.
  * Set start/end dates for alert
  * Permission controls
  * Localisation of CMS UI controls and labels
+ * Preview and publish through versioning
  * Optional: Rich-text editing (insert links and images)
- * Optional: Preview and publish through [versioneddataobjects](https://github.com/heyday/silverstripe-versioneddataobjects)
- * Optional: Sorting through [sortablegridfield](https://github.com/UndefinedOffset/SortableGridField)
+ * Optional: Sorting through [gridfieldextensions](https://github.com/symbiote/silverstripe-gridfieldextensions)
  * Support for [subsites](https://github.com/silverstripe/silverstripe-subsites)
 
 ## Screenshot
+
+(SilverStripe 3.x)
 
 ![CMS Preview](docs/_img/cms.png)
 
@@ -27,15 +29,15 @@ CMS editing screen (with [versioneddataobjects](https://github.com/heyday/silver
 
 ## Installation
 
-	composer require nzta/silverstripe-sitebanner
+	composer require nzta/silverstripe-sitebanner:
 
 ## Configuration
 
 Add the following to your YAML config to activate the module:
 
-	SiteConfig:
+	SilverStripe\SiteConfig\SiteConfig:
 	  extensions:
-	    - SiteBannerSiteConfigExtension
+	    - NZTA\SiteBanner\ExtensionsSiteConfigExtension
 
 The site banner can be configured in `admin/settings` now.
 
@@ -96,19 +98,8 @@ can set alerts. You can customise this by YAML configuration:
 ## Sorting
 
 You can allow authors to sort multiple alerts by installing
-the [sortablegridfield](https://github.com/UndefinedOffset/SortableGridField) module.
+the [gridfieldextensionsn](https://github.com/symbiote/silverstripe-gridfieldextensions) module.
 It'll get automatically picked up by the code.
-
-## Versioning and Previews
-
-In case you want to make your status messages previewable by authors,
-install the [versioneddataobjects](https://github.com/heyday/silverstripe-versioneddataobjects) module.
-Then add the following code to your YAML configuration:
-
-    SiteBanner:
-      extensions:
-        - 'Heyday\VersionedDataObjects\VersionedDataObject'
-
 
 ## Limitations
 

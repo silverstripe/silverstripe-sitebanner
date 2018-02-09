@@ -1,5 +1,12 @@
 <?php
-class SiteBannerSiteConfigExtensionTest extends SapphireTest
+
+namespace NZTA\SiteBanner\Tests;
+
+use NZTA\SiteBanner\Models\SiteBanner;
+use SilverStripe\Dev\SapphireTest;
+use SilverStripe\SiteConfig\SiteConfig;
+
+class SiteConfigExtensionTest extends SapphireTest
 {
     protected $usesDatabase = true;
 
@@ -19,7 +26,7 @@ class SiteBannerSiteConfigExtensionTest extends SapphireTest
         $inactiveBanner->Content = '';
         $inactiveBanner->write();
 
-        $banners = singleton('SiteConfig')->getSiteBanners();
+        $banners = singleton(SiteConfig::class)->getSiteBanners();
         $this->assertContains($activeBanner->ID, $banners->column('ID'));
         $this->assertNotContains($inactiveBanner->ID, $banners->column('ID'));
     }
