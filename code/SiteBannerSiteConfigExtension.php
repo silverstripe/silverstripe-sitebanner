@@ -41,8 +41,20 @@ class SiteBannerSiteConfigExtension extends DataExtension
      */
     public function getSiteBanners()
     {
+        Requirements::javascript(SITE_BANNER_DIR . '/javascript/site-banner.js');
+
         return SiteBanner::get()->filterByCallback(function ($banner) {
-            return $banner->isActive();
+            // don't display inactive banners
+            if (!$banner->isActive()) {
+                return false;
+            }
+
+            // don't display banners which have been dismissed by the user
+            if ($banner->Dismiss && Cookie::get('SiteBanner_' . $banner->ID . '_Dismiss')) {
+                return false;
+            }
+
+            return true;
         });
     }
 }

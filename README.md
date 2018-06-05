@@ -14,6 +14,7 @@ of the page they're viewing.
  * Set start/end dates for alert
  * Permission controls
  * Localisation of CMS UI controls and labels
+ * CMS users can make banners "dismissible", allowing users to hide banners after reading.
  * Optional: Rich-text editing (insert links and images)
  * Optional: Preview and publish through [versioneddataobjects](https://github.com/heyday/silverstripe-versioneddataobjects)
  * Optional: Sorting through [sortablegridfield](https://github.com/UndefinedOffset/SortableGridField)
@@ -44,8 +45,11 @@ The site banner can be configured in `admin/settings` now.
 In order to show the banners, you need to add them to your template:
 
 	<% loop $SiteConfig.SiteBanners %>
-        <div class="site-banner site-banner-$Type" role="alert">
+        <div id="site-banner-$ID" class="site-banner site-banner-$Type" role="alert">
             $Content
+            <% if $Dismiss %>
+                <button class="site-banner-close" aria-label="Close" data-banner="$ID">×</button>
+            <% end_if %>
         </div>
 	<% end_loop %>
 

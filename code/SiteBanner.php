@@ -8,6 +8,7 @@ class SiteBanner extends DataObject
         'StartDate'   => 'SS_Datetime',
         'EndDate'     => 'SS_Datetime',
         'Sort'        => 'Int', // only used when 'sortablegridfield' is installed
+        'Dismiss'     => 'Boolean', // allows users to dismiss banners for the remainder of their session
     ];
 
     /**
@@ -54,7 +55,8 @@ class SiteBanner extends DataObject
                 'Content' => _t('SiteBanner.ContentFieldLabel', 'Banner content'),
                 'Type' => _t('SiteBanner.TypeFieldLabel', 'Banner type'),
                 'StartDate' => _t('SiteBanner.StartDateFieldLabel', 'Start date / time'),
-                'EndDate' => _t('SiteBanner.EndDateFieldLabel', 'End date / time')
+                'EndDate' => _t('SiteBanner.EndDateFieldLabel', 'End date / time'),
+                'Dismiss' => _t('SiteBanner.DismissLabel', 'Allow users to dismiss this banner')
             ]
         );
     }
