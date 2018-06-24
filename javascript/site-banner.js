@@ -12,7 +12,7 @@
         banner.parentNode.removeChild(banner);
 
         // Make sure the banner doesn't re-appear when the page is re-loaded.
-        document.cookie = 'SiteBanner_' + bannerId + '_Dismiss=1';
+        document.cookie = 'SiteBanner_' + bannerId + '_Dismiss=1;path=/';
     }
 
     var buttonNodeList = document.querySelectorAll('button.site-banner-close');
