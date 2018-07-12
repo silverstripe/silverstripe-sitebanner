@@ -6,7 +6,7 @@
     // Called when a user closes a banner.
     function callback(event) {
         var button = event.currentTarget;
-        var bannerId = button.dataset.id;
+        var bannerId = button.getAttribute('data-id');
         var banner = document.getElementById('site-banner-' + bannerId);
 
         // The banner can only be closed once, so we don't need the click handler anymore.
@@ -25,7 +25,7 @@
     var button = null;
 
     for (index; index < bannersNodeList.length; index += 1) {
-        bannerId = bannersNodeList[index].dataset.id;
+        bannerId = bannersNodeList[index].getAttribute('data-id');
 
         // Don't display banners which have been dismissed.
         if (sessionStorage.getItem(getStorageKey(bannerId))) {
@@ -38,7 +38,12 @@
         // Add a click event the "dismiss" button, if it exists.
         button = document.querySelector('#' + bannersNodeList[index].id + ' .site-banner-close');
         if (button) {
-            button.addEventListener('click', callback);
+            // hide close button for browsers without sessionStorage compatibility
+            if (!sessionStorage) {
+                button.style.display = 'none';
+            } else {
+                button.addEventListener('click', callback);
+            }
         }
     }
 }());

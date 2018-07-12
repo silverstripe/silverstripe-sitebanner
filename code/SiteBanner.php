@@ -1,4 +1,5 @@
 <?php
+
 class SiteBanner extends DataObject
 {
 
@@ -52,11 +53,26 @@ class SiteBanner extends DataObject
         return array_merge(
             parent::fieldLabels($includerelations),
             [
-                'Content' => _t('SiteBanner.ContentFieldLabel', 'Banner content'),
-                'Type' => _t('SiteBanner.TypeFieldLabel', 'Banner type'),
-                'StartDate' => _t('SiteBanner.StartDateFieldLabel', 'Start date / time'),
-                'EndDate' => _t('SiteBanner.EndDateFieldLabel', 'End date / time'),
-                'Dismiss' => _t('SiteBanner.DismissLabel', 'Allow users to dismiss this banner')
+                'Content' => _t(
+                    'SiteBanner.ContentFieldLabel',
+                    'Banner content'
+                ),
+                'Type' => _t(
+                    'SiteBanner.TypeFieldLabel',
+                    'Banner type'
+                ),
+                'StartDate' => _t(
+                    'SiteBanner.StartDateFieldLabel',
+                    'Start date / time'
+                ),
+                'EndDate' => _t(
+                    'SiteBanner.EndDateFieldLabel',
+                    'End date / time'
+                ),
+                'Dismiss' => _t(
+                    'SiteBanner.DismissLabel',
+                    'Allow users to temporarily dismiss this banner in their browser session'
+                )
             ]
         );
     }
