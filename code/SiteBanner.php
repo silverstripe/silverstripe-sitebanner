@@ -182,6 +182,19 @@ class SiteBanner extends DataObject
      * @param null|Member $member
      * @return bool|int
      */
+    public function canView($member = null)
+    {
+        $extended = $this->extendedCan(__FUNCTION__, $member);
+        if ($extended !== null) {
+            return $extended;
+        }
+        return Permission::checkMember($member, $this->config()->required_permission_codes);
+    }
+
+    /**
+     * @param null|Member $member
+     * @return bool|int
+     */
     public function canCreate($member = null)
     {
         $extended = $this->extendedCan(__FUNCTION__, $member);
