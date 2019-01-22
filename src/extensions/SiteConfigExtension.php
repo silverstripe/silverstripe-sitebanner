@@ -8,6 +8,8 @@ use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataExtension;
+use SilverStripe\Core\Environment;
+use SilverStripe\View\Requirements;
 
 /**
  * Allows editing of site banner data "globally".
@@ -25,7 +27,7 @@ class SiteConfigExtension extends DataExtension
         );
 
         $gridConfig = GridFieldConfig_RecordEditor::create();
-        $grid = GridField::create('SiteBanners', null, SiteBanner::get())
+        $grid       = GridField::create('SiteBanners', null, SiteBanner::get())
             ->setConfig($gridConfig);
 
         $gridConfig->removeComponentsByType('GridFieldPaginator');
@@ -48,6 +50,9 @@ class SiteConfigExtension extends DataExtension
      */
     public function getSiteBanners()
     {
+        Requirements::css('nzta/silverstripe-sitebanner: client/css/site-banner.css');
+        Requirements::javascript('nzta/silverstripe-sitebanner: client/javascript/site-banner.js');
+
         return SiteBanner::get()->filterByCallback(function ($banner) {
             return $banner->isActive();
         });

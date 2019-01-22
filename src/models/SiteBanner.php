@@ -10,6 +10,7 @@ use SilverStripe\ORM\FieldType\DBDatetime;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Permission;
 use SilverStripe\Versioned\Versioned;
+use SilverStripe\Forms\FieldList;
 
 /**
  * Class \NZTA\SiteBanner\Models\SiteBanner
@@ -25,12 +26,16 @@ use SilverStripe\Versioned\Versioned;
 class SiteBanner extends DataObject
 {
 
+    /**
+     * @var array
+     */
     private static $db = [
         'Content'   => 'HTMLText', // see getContent()
         'Type'      => 'Varchar(32)',
         'StartDate' => 'Datetime',
         'EndDate'   => 'Datetime',
         'Sort'      => 'Int', // only used when 'sortablegridfield' is installed
+        'Dismiss'   => 'Boolean', // allows users to dismiss banners for the remainder of their session
     ];
 
     /**
@@ -40,7 +45,7 @@ class SiteBanner extends DataObject
     private static $types = [
         'info'    => 'Info',
         'warning' => 'Warning',
-        'alert'   => 'Alert'
+        'alert'   => 'Alert',
     ];
 
     /**
@@ -54,7 +59,7 @@ class SiteBanner extends DataObject
      * @config
      */
     private static $required_permission_codes = [
-        'EDIT_SITECONFIG'
+        'EDIT_SITECONFIG',
     ];
 
     /**
@@ -63,16 +68,28 @@ class SiteBanner extends DataObject
      */
     private static $allow_html = true;
 
+    /**
+     * @var string
+     */
     private static $default_sort = 'Sort';
 
+    /**
+     * @var array
+     */
     private static $summary_fields = [
-        'Content' => 'Content.Summary'
+        'Content' => 'Content.Summary',
     ];
 
+    /**
+     * @var string
+     */
     private static $table_name = 'SiteBanner';
 
+    /**
+     * @var array
+     */
     private static $extensions = [
-        Versioned::class
+        Versioned::class,
     ];
 
     public function fieldLabels($includerelations = true)
@@ -83,30 +100,15 @@ class SiteBanner extends DataObject
                 'Content'   => _t('SiteBanner.ContentFieldLabel', 'Banner content'),
                 'Type'      => _t('SiteBanner.TypeFieldLabel', 'Banner type'),
                 'StartDate' => _t('SiteBanner.StartDateFieldLabel', 'Start date / time'),
-                'EndDate'   => _t('SiteBanner.EndDateFieldLabel', 'End date / time')
+                'EndDate'   => _t('SiteBanner.EndDateFieldLabel', 'End date / time'),
+                'Dismiss'   => _t('SiteBanner.DismissLabel', 'Allow users to dismiss this banner'),
             ]
         );
     }
 
     /**
-     * @return array
+     * @return FieldList
      */
-    public function getTypeSource()
-    {
-        $localised = [
-            'info'    => _t('SiteBanner.TypeLabelInfo', 'Info'),
-            'warning' => _t('SiteBanner.TypeLabelWarning', 'Warning'),
-            'alert'   => _t('SiteBanner.TypeLabelAlert', 'Alert')
-        ];
-
-        $source = [];
-        foreach (static::config()->get('types') as $type => $title) {
-            $source[$type] = array_key_exists($type, $localised) ? $localised[$type] : $title;
-        }
-
-        return $source;
-    }
-
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
@@ -150,10 +152,30 @@ class SiteBanner extends DataObject
     }
 
     /**
+     * @return array
+     */
+    public function getTypeSource()
+    {
+        $localised = [
+            'info'    => _t('SiteBanner.TypeLabelInfo', 'Info'),
+            'warning' => _t('SiteBanner.TypeLabelWarning', 'Warning'),
+            'alert'   => _t('SiteBanner.TypeLabelAlert', 'Alert'),
+        ];
+
+        $source = [];
+        foreach (static::config()->get('types') as $type => $title) {
+            $source[$type] = array_key_exists($type, $localised) ? $localised[$type] : $title;
+        }
+
+        return $source;
+    }
+
+    /**
      * Check if the Site Banner should be displayed. It should be displayed if there is content
      * and the current date/time is within the start and end date/times for the banner.
      *
      * @return boolean
+     * @throws \Exception
      */
     public function isActive()
     {
@@ -169,8 +191,8 @@ class SiteBanner extends DataObject
         }
 
         $startDate = new DateTime($this->StartDate);
-        $endDate = new DateTime($this->EndDate);
-        $now = new DateTime(DBDatetime::now()->Format(DBDatetime::ISO_DATETIME));
+        $endDate   = new DateTime($this->EndDate);
+        $now       = new DateTime(DBDatetime::now()->Format(DBDatetime::ISO_DATETIME));
 
         // Check if the current time falls between the start and end dates.
         return ((!$this->StartDate || $startDate <= $now) && (!$this->EndDate || $endDate >= $now));
@@ -178,7 +200,23 @@ class SiteBanner extends DataObject
 
     /**
      * @param null|Member $member
+     *
+     * @return bool|int
+     */
+    public function canView($member = null)
+    {
+        $extended = $this->extendedCan(__FUNCTION__, $member);
+        if ($extended !== null) {
+            return $extended;
+        }
+
+        return Permission::checkMember($member, $this->config()->required_permission_codes);
+    }
+
+    /**
+     * @param null|Member $member
      * @param array $context
+     *
      * @return bool|int
      */
     public function canCreate($member = null, $context = [])
@@ -193,6 +231,7 @@ class SiteBanner extends DataObject
 
     /**
      * @param null|Member $member
+     *
      * @return bool|int
      */
     public function canEdit($member = null)
@@ -207,6 +246,7 @@ class SiteBanner extends DataObject
 
     /**
      * @param null|Member $member
+     *
      * @return bool|int
      */
     public function canDelete($member = null)
