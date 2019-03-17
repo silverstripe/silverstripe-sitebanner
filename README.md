@@ -37,7 +37,7 @@ Add the following to your YAML config to activate the module:
 
 	SilverStripe\SiteConfig\SiteConfig:
 	  extensions:
-	    - NZTA\SiteBanner\ExtensionsSiteConfigExtension
+	    - NZTA\SiteBanner\Extensions\SiteConfigExtension
 
 The site banner can be configured in `admin/settings` now.
 
