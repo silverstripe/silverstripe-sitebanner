@@ -6,6 +6,9 @@ use NZTA\SiteBanner\Models\SiteBanner;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
+use SilverStripe\Forms\GridField\GridFieldDeleteAction;
+use SilverStripe\Forms\GridField\GridFieldPaginator;
+use SilverStripe\Forms\GridField\GridFieldPageCount;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataExtension;
 use SilverStripe\Core\Environment;
@@ -30,8 +33,9 @@ class SiteConfigExtension extends DataExtension
         $grid       = GridField::create('SiteBanners', null, SiteBanner::get())
             ->setConfig($gridConfig);
 
-        $gridConfig->removeComponentsByType('GridFieldPaginator');
-        $gridConfig->removeComponentsByType('GridFieldPageCount');
+        $gridConfig->removeComponentsByType(GridFieldPaginator::class);
+        $gridConfig->removeComponentsByType(GridFieldPageCount::class);
+        $gridConfig->removeComponentsByType(GridFieldDeleteAction::class);
 
         if (class_exists('Symbiote\GridFieldExtensions\GridFieldOrderableRows')) {
             $grid->getConfig()->addComponent(new \Symbiote\GridFieldExtensions\GridFieldOrderableRows('Sort'));
