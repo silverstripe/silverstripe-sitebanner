@@ -15,6 +15,7 @@ of the page they're viewing.
  * Permission controls
  * Localisation of CMS UI controls and labels
  * Preview and publish through versioning
+ * CMS users can make banners "dismissible", allowing users to hide banners after reading.
  * Optional: Rich-text editing (insert links and images)
  * Optional: Sorting through [gridfieldextensions](https://github.com/symbiote/silverstripe-gridfieldextensions)
  * Support for [subsites](https://github.com/silverstripe/silverstripe-subsites)
@@ -37,7 +38,7 @@ Add the following to your YAML config to activate the module:
 
 	SilverStripe\SiteConfig\SiteConfig:
 	  extensions:
-	    - NZTA\SiteBanner\ExtensionsSiteConfigExtension
+	    - NZTA\SiteBanner\Extensions\SiteConfigExtension
 
 The site banner can be configured in `admin/settings` now.
 
@@ -46,8 +47,11 @@ The site banner can be configured in `admin/settings` now.
 In order to show the banners, you need to add them to your template:
 
 	<% loop $SiteConfig.SiteBanners %>
-        <div class="site-banner site-banner-$Type" role="alert">
+        <div id="site-banner-$ID" class="site-banner site-banner-$Type" role="alert" data-id="$ID" aria-hidden="true">
             $Content
+            <% if $Dismiss %>
+                <button class="site-banner-close" aria-label="Close" data-id="$ID">×</button>
+            <% end_if %>
         </div>
 	<% end_loop %>
 
@@ -59,19 +63,19 @@ and [icons](http://getbootstrap.com/components/#glyphicons).
 
 	<% loop $SiteConfig.SiteBanners %>
         <% if $Type == 'info' %>
-            <p class="bg-info" role="alert">
+            <p class="bg-info site-banner site-banner-$Type" role="alert" data-id="$ID" aria-hidden="true">
                 <span class="glyphicon glyphicon-info-sign" aria-hidden="true" />
                 $Content
             </p>
         <% end_if %>
         <% if $Type == 'warning' %>
-            <p class="bg-warning" role="alert">
+            <p class="bg-warning site-banner site-banner-$Type" role="alert" data-id="$ID" aria-hidden="true">
                 <span class="glyphicon glyphicon-warning-sign" aria-hidden="true" />
                 $Content
             </p>
         <% end_if %>
         <% if $Type == 'alert' %>
-            <p class="bg-danger" role="alert">
+            <p class="bg-danger site-banner site-banner-$Type" role="alert" data-id="$ID" aria-hidden="true">
                 <span class="glyphicon glyphicon-warning-sign" aria-hidden="true" />
                 $Content
             </p>
@@ -91,7 +95,7 @@ Examples on the SilverStripe default theme:
 By default, every author with access to the "Settings" section (`EDIT_SITECONFIG` permission code)
 can set alerts. You can customise this by YAML configuration:
 
-	SiteBanner:
+	NZTA\SiteBanner\Models\SiteBanner:
 	  required_permission_codes:
 	    - ADMIN
 

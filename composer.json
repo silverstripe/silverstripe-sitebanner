@@ -19,7 +19,10 @@
         "installer-name": "sitebanner",
         "branch-alias": {
             "dev-master": "2.0.x-dev"
-        }
+        },
+        "expose": [
+            "client"
+        ]
     },
     "autoload": {
         "psr-4": {
