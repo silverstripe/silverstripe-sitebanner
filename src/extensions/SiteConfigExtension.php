@@ -26,7 +26,7 @@ class SiteConfigExtension extends DataExtension
     {
         $fields->findOrMakeTab(
             'Root.SiteBanner',
-            _t('SiteBanner.TabTitle', 'Site Banners')
+            _t(self::class . '.TabTitle', 'Site Banners')
         );
 
         $gridConfig = GridFieldConfig_RecordEditor::create();
