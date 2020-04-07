@@ -16,17 +16,13 @@ of the page they're viewing.
  * Localisation of CMS UI controls and labels
  * Preview and publish through versioning
  * CMS users can make banners "dismissible", allowing users to hide banners after reading.
- * Optional: Rich-text editing (insert links and images)
+ * Rich-text editing (insert links and images)
  * Optional: Sorting through [gridfieldextensions](https://github.com/symbiote/silverstripe-gridfieldextensions)
  * Support for [subsites](https://github.com/silverstripe/silverstripe-subsites)
 
 ## Screenshot
 
-(SilverStripe 3.x)
-
-![CMS Preview](docs/_img/cms.png)
-
-CMS editing screen (with [versioneddataobjects](https://github.com/heyday/silverstripe-versioneddataobjects) enabled)
+![CMS Preview](docs/_img/cms-screenshot.png)
 
 ## Installation
 
