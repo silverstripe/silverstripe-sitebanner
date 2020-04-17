@@ -9,11 +9,10 @@
         "issues": "https://github.com/NZTA/silverstripe-sitebanner/issues"
     },
     "require": {
-        "silverstripe/framework": "~4.0",
-        "silverstripe/cms": "~4.0"
+        "silverstripe/cms": "^4"
     },
     "require-dev": {
-        "phpunit/PHPUnit": "~4.8"
+        "phpunit/phpunit": "^5.7"
     },
     "extra": {
         "installer-name": "sitebanner",
@@ -32,5 +31,7 @@
     },
     "suggest": {
         "symbiote/silverstripe-gridfieldextensions": "Allows sorting of site banners"
-    }
+    },
+    "prefer-stable": true,
+    "minimum-stability": "dev"
 }
