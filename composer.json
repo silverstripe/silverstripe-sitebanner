@@ -16,9 +16,6 @@
     },
     "extra": {
         "installer-name": "sitebanner",
-        "branch-alias": {
-            "dev-master": "2.0.x-dev"
-        },
         "expose": [
             "client"
         ]
@@ -31,6 +28,9 @@
     },
     "suggest": {
         "symbiote/silverstripe-gridfieldextensions": "Allows sorting of site banners"
+    },
+    "scripts": {
+        "lint": "phpcs src/ tests/"
     },
     "prefer-stable": true,
     "minimum-stability": "dev"
