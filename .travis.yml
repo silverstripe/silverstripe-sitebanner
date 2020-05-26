@@ -35,7 +35,7 @@ before_script:
 
 # Install composer
   - composer validate
-  - composer require silverstripe/recipe-testing:^1 silverstripe/recipe-core:$CMS_VERSION silverstripe/versioned:1.x-dev --no-update
+  - composer require silverstripe/recipe-testing:^1 silverstripe/recipe-cms:$CMS_VERSION silverstripe/versioned:1.x-dev --no-update
   - if [[ $DB == PGSQL ]]; then composer require silverstripe/postgresql:2.x-dev --no-update; fi
   - if [[ $PHPCS_TEST ]]; then composer global require squizlabs/php_codesniffer:^3 --prefer-dist --no-interaction --no-progress --no-suggest --optimize-autoloader --verbose --profile; fi
 
@@ -43,5 +43,5 @@ before_script:
   - composer show
 
 script:
-  - if [[ $PHPUNIT_TEST ]]; then vendor/bin/phpunit fi
+  - if [[ $PHPUNIT_TEST ]]; then vendor/bin/phpunit; fi
   - if [[ $PHPCS_TEST ]]; then composer run-script lint; fi
