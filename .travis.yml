@@ -43,5 +43,5 @@ before_script:
   - composer show
 
 script:
-  - if [[ $PHPUNIT_TEST ]]; then vendor/bin/phpunit fi
+  - if [[ $PHPUNIT_TEST ]]; then vendor/bin/phpunit; fi
   - if [[ $PHPCS_TEST ]]; then composer run-script lint; fi
