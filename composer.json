@@ -2,11 +2,11 @@
     "name": "nzta/silverstripe-sitebanner",
     "description": "Site-wide banners activated through the CMS",
     "type": "silverstripe-vendormodule",
-    "homepage": "https://github.com/NZTA/silverstripe-sitebanner",
+    "homepage": "https://github.com/silverstripe/silverstripe-sitebanner",
     "keywords": ["silverstripe", "banner", "cms"],
     "license": "BSD-3-Clause",
     "support": {
-        "issues": "https://github.com/NZTA/silverstripe-sitebanner/issues"
+        "issues": "https://github.com/silverstripe/silverstripe-sitebanner/issues"
     },
     "require": {
         "silverstripe/cms": "^4"
