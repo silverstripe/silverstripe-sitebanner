@@ -77,7 +77,7 @@ class SiteBanner extends DataObject
      * @var array
      */
     private static $summary_fields = [
-        'Content' => 'Content.Summary',
+        'Content.Summary' => 'Content',
     ];
 
     /**
@@ -97,11 +97,11 @@ class SiteBanner extends DataObject
         return array_merge(
             parent::fieldLabels($includerelations),
             [
-                'Content'   => _t('SiteBanner.ContentFieldLabel', 'Banner content'),
-                'Type'      => _t('SiteBanner.TypeFieldLabel', 'Banner type'),
-                'StartDate' => _t('SiteBanner.StartDateFieldLabel', 'Start date / time'),
-                'EndDate'   => _t('SiteBanner.EndDateFieldLabel', 'End date / time'),
-                'Dismiss'   => _t('SiteBanner.DismissLabel', 'Allow users to dismiss this banner'),
+                'Content'   => _t(self::class . '.ContentFieldLabel', 'Banner content'),
+                'Type'      => _t(self::class . '.TypeFieldLabel', 'Banner type'),
+                'StartDate' => _t(self::class . '.StartDateFieldLabel', 'Start date / time'),
+                'EndDate'   => _t(self::class . '.EndDateFieldLabel', 'End date / time'),
+                'Dismiss'   => _t(self::class . '.DismissLabel', 'Allow users to dismiss this banner'),
             ]
         );
     }
@@ -117,8 +117,9 @@ class SiteBanner extends DataObject
             $fields->dataFieldByName('Content')
                 ->setRows(2)// indicate to authors that this should be kept short
                 ->setDescription(_t(
-                    'SiteBanner.ContentFieldDesc',
-                    'Appears at the top of each page on the site. The banner will not display until content has been added.'
+                    self::class . '.ContentFieldDesc',
+                    'Appears at the top of each page on the site. '
+                    . 'The banner will not display until content has been added.'
                 ));
 
             $fields->replaceField(
@@ -133,13 +134,13 @@ class SiteBanner extends DataObject
             if (static::config()->embargo_enabled) {
                 $startDate = $fields->dataFieldByName('StartDate');
                 $startDate->setDescription(_t(
-                    'SiteBanner.StartDateFieldDesc',
+                    self::class . '.StartDateFieldDesc',
                     'When to start showing the banner. Leave this blank to start showing the banner immediately.'
                 ));
 
                 $endDate = $fields->dataFieldByName('EndDate');
                 $endDate->setDescription(_t(
-                    'SiteBanner.EndDateFieldDesc',
+                    self::class . '.EndDateFieldDesc',
                     'When to stop showing the banner. Leave this blank to show the banner indefinitely.'
                 ));
             } else {
@@ -157,9 +158,9 @@ class SiteBanner extends DataObject
     public function getTypeSource()
     {
         $localised = [
-            'info'    => _t('SiteBanner.TypeLabelInfo', 'Info'),
-            'warning' => _t('SiteBanner.TypeLabelWarning', 'Warning'),
-            'alert'   => _t('SiteBanner.TypeLabelAlert', 'Alert'),
+            'info'    => _t(self::class . '.TypeLabelInfo', 'Info'),
+            'warning' => _t(self::class . '.TypeLabelWarning', 'Warning'),
+            'alert'   => _t(self::class . '.TypeLabelAlert', 'Alert'),
         ];
 
         $source = [];
