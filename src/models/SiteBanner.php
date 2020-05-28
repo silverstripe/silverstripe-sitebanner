@@ -111,44 +111,44 @@ class SiteBanner extends DataObject
      */
     public function getCMSFields()
     {
-        $fields = parent::getCMSFields();
+        $this->beforeUpdateCMSFields(function (FieldList $fields) {
+            $fields->removeByName('Sort');
 
-        $fields->removeByName('Sort');
+            $fields->dataFieldByName('Content')
+                ->setRows(2)// indicate to authors that this should be kept short
+                ->setDescription(_t(
+                    'SiteBanner.ContentFieldDesc',
+                    'Appears at the top of each page on the site. The banner will not display until content has been added.'
+                ));
 
-        $fields->dataFieldByName('Content')
-            ->setRows(2)// indicate to authors that this should be kept short
-            ->setDescription(_t(
-                'SiteBanner.ContentFieldDesc',
-                'Appears at the top of each page on the site. The banner will not display until content has been added.'
-            ));
+            $fields->replaceField(
+                'Type',
+                DropdownField::create('Type', $this->fieldLabel('Type'), $this->getTypeSource())
+            );
 
-        $fields->replaceField(
-            'Type',
-            DropdownField::create('Type', $this->fieldLabel('Type'), $this->getTypeSource())
-        );
+            if (!$this->config()->allow_html) {
+                $fields->replaceField('Content', new TextField('Content', $this->fieldLabel('Content')));
+            }
 
-        if (!$this->config()->allow_html) {
-            $fields->replaceField('Content', new TextField('Content', $this->fieldLabel('Content')));
-        }
+            if (static::config()->embargo_enabled) {
+                $startDate = $fields->dataFieldByName('StartDate');
+                $startDate->setDescription(_t(
+                    'SiteBanner.StartDateFieldDesc',
+                    'When to start showing the banner. Leave this blank to start showing the banner immediately.'
+                ));
 
-        if (static::config()->embargo_enabled) {
-            $startDate = $fields->dataFieldByName('StartDate');
-            $startDate->setDescription(_t(
-                'SiteBanner.StartDateFieldDesc',
-                'When to start showing the banner. Leave this blank to start showing the banner immediately.'
-            ));
+                $endDate = $fields->dataFieldByName('EndDate');
+                $endDate->setDescription(_t(
+                    'SiteBanner.EndDateFieldDesc',
+                    'When to stop showing the banner. Leave this blank to show the banner indefinitely.'
+                ));
+            } else {
+                $fields->removeByName('StartDate');
+                $fields->removeByName('EndDate');
+            }
+        });
 
-            $endDate = $fields->dataFieldByName('EndDate');
-            $endDate->setDescription(_t(
-                'SiteBanner.EndDateFieldDesc',
-                'When to stop showing the banner. Leave this blank to show the banner indefinitely.'
-            ));
-        } else {
-            $fields->removeByName('StartDate');
-            $fields->removeByName('EndDate');
-        }
-
-        return $fields;
+        return parent::getCMSFields();
     }
 
     /**
