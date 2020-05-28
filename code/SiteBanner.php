@@ -1,4 +1,5 @@
 <?php
+
 class SiteBanner extends DataObject
 {
 
@@ -8,6 +9,7 @@ class SiteBanner extends DataObject
         'StartDate'   => 'SS_Datetime',
         'EndDate'     => 'SS_Datetime',
         'Sort'        => 'Int', // only used when 'sortablegridfield' is installed
+        'Dismiss'     => 'Boolean', // allows users to dismiss banners for the remainder of their session
     ];
 
     /**
@@ -51,10 +53,26 @@ class SiteBanner extends DataObject
         return array_merge(
             parent::fieldLabels($includerelations),
             [
-                'Content' => _t('SiteBanner.ContentFieldLabel', 'Banner content'),
-                'Type' => _t('SiteBanner.TypeFieldLabel', 'Banner type'),
-                'StartDate' => _t('SiteBanner.StartDateFieldLabel', 'Start date / time'),
-                'EndDate' => _t('SiteBanner.EndDateFieldLabel', 'End date / time')
+                'Content' => _t(
+                    'SiteBanner.ContentFieldLabel',
+                    'Banner content'
+                ),
+                'Type' => _t(
+                    'SiteBanner.TypeFieldLabel',
+                    'Banner type'
+                ),
+                'StartDate' => _t(
+                    'SiteBanner.StartDateFieldLabel',
+                    'Start date / time'
+                ),
+                'EndDate' => _t(
+                    'SiteBanner.EndDateFieldLabel',
+                    'End date / time'
+                ),
+                'Dismiss' => _t(
+                    'SiteBanner.DismissLabel',
+                    'Allow users to temporarily dismiss this banner in their browser session'
+                )
             ]
         );
     }
@@ -158,6 +176,19 @@ class SiteBanner extends DataObject
         }
 
         return false;
+    }
+
+    /**
+     * @param null|Member $member
+     * @return bool|int
+     */
+    public function canView($member = null)
+    {
+        $extended = $this->extendedCan(__FUNCTION__, $member);
+        if ($extended !== null) {
+            return $extended;
+        }
+        return Permission::checkMember($member, $this->config()->required_permission_codes);
     }
 
     /**

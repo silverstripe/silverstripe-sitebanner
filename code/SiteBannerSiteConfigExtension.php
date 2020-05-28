@@ -41,6 +41,9 @@ class SiteBannerSiteConfigExtension extends DataExtension
      */
     public function getSiteBanners()
     {
+        Requirements::css(SITE_BANNER_DIR . '/css/site-banner.css');
+        Requirements::javascript(SITE_BANNER_DIR . '/javascript/site-banner.js');
+
         return SiteBanner::get()->filterByCallback(function ($banner) {
             return $banner->isActive();
         });
