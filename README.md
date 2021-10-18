@@ -43,7 +43,7 @@ The site banner can be configured in `admin/settings` now.
 In order to show the banners, you need to add them to your template:
 
 	<% loop $SiteConfig.SiteBanners %>
-        <div id="site-banner-$ID" class="site-banner site-banner-$Type" role="alert" data-id="$ID" aria-hidden="true">
+        <div id="site-banner-$ID" class="site-banner site-banner-$Type" role="alert" data-id="$ID">
             $Content
             <% if $Dismiss %>
                 <button class="site-banner-close" aria-label="Close" data-id="$ID">×</button>

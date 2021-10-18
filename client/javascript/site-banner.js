@@ -12,8 +12,8 @@
     // The banner can only be closed once, so we don't need the click handler anymore.
     button.removeEventListener('click', callback);
 
-    // Remove the banner from the page.
-    banner.parentNode.removeChild(banner);
+    // Hide the banner from the page
+    banner.classList.add('site-banner--hidden');
 
     // Make sure the banner doesn't re-appear when the page is re-loaded.
     sessionStorage.setItem(getStorageKey(bannerId), 'true');
@@ -34,7 +34,7 @@
     }
 
     // Display the banner.
-    bannersNodeList[index].setAttribute('aria-hidden', 'false');
+    bannersNodeList[index].classList.remove('site-banner--hidden');
 
     // Add a click event the "dismiss" button, if it exists.
     button = document.querySelector('#' + bannersNodeList[index].id + ' .site-banner-close');
