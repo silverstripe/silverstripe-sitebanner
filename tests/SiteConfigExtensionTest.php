@@ -2,19 +2,23 @@
 
 namespace NZTA\SiteBanner\Tests;
 
-use NZTA\SiteBanner\Models\SiteBanner;
 use NZTA\SiteBanner\Extensions\SiteConfigExtension;
+use NZTA\SiteBanner\Models\SiteBanner;
 use SilverStripe\Dev\SapphireTest;
 use SilverStripe\SiteConfig\SiteConfig;
 
+/**
+ * @phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
+ * @phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
+ */
 class SiteConfigExtensionTest extends SapphireTest
 {
     protected $usesDatabase = true;
 
     protected static $required_extensions = [
         SiteConfig::class => [
-            SiteConfigExtension::class
-        ]
+            SiteConfigExtension::class,
+        ],
     ];
 
     public function testFiltersInactiveBanners(): void
