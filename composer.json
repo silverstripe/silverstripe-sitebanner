@@ -16,7 +16,9 @@
         "silverstripe/cms": "^4"
     },
     "require-dev": {
-        "silverstripe/recipe-testing": "^2"
+        "silverstripe/recipe-testing": "^2",
+        "slevomat/coding-standard": "~6.0",
+        "php-parallel-lint/php-parallel-lint": "^1.2"
     },
     "extra": {
         "installer-name": "sitebanner",
@@ -31,16 +33,27 @@
     },
     "autoload": {
         "psr-4": {
-            "NZTA\\SiteBanner\\Extensions\\": "src/extensions",
-            "NZTA\\SiteBanner\\Models\\": "src/models"
+            "NZTA\\SiteBanner\\": "src"
         }
     },
     "suggest": {
         "symbiote/silverstripe-gridfieldextensions": "Allows sorting of site banners"
     },
-    "scripts": {
-        "lint": "phpcs src/ tests/"
-    },
     "prefer-stable": true,
-    "minimum-stability": "dev"
+    "scripts": {
+        "silverstripe-standards": [
+            "@php-lint",
+            "@phpcs"
+        ],
+        "test": [
+            "@test-phpunit"
+        ],
+        "test-phpunit": "phpunit -d memory_limit=512M -d flush=1",
+        "test-phpunit-with-coverage": [
+            "phpunit --coverage-html coverage/php --coverage-clover coverage/php/clover.xml"
+        ],
+        "php-lint": "parallel-lint src tests",
+        "phpcs": "phpcs src tests --standard=phpcs.xml --extensions=php --encoding=utf-8",
+        "phpcbf": "phpcbf src tests --standard=phpcs.xml --extensions=php --encoding=utf-8"
+    }
 }
