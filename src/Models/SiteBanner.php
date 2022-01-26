@@ -29,6 +29,12 @@ use SilverStripe\Versioned\Versioned;
  */
 class SiteBanner extends DataObject
 {
+    /**
+     * Constants of the supported banner types
+     */
+    protected const TYPE_INFO = 'info';
+    protected const TYPE_WARNING = 'warning';
+    protected const TYPE_ALERT = 'alert';
 
     private static array $db = [
         'Content' => 'HTMLText', // see getContent()
@@ -44,19 +50,21 @@ class SiteBanner extends DataObject
      * Type identifiers are commonly used for CSS classes.
      */
     private static array $types = [
-        'info' => 'Info',
-        'warning' => 'Warning',
-        'alert' => 'Alert',
+        self::TYPE_INFO => 'Info',
+        self::TYPE_WARNING => 'Warning',
+        self::TYPE_ALERT => 'Alert',
     ];
 
     /**
      * Enforce start/end dates for banner
+     *
      * @config
      */
     private static bool $embargo_enabled = true;
 
     /**
      * Will require at least one permission if multiple are provided
+     *
      * @config
      */
     private static array $required_permission_codes = [
@@ -144,9 +152,9 @@ class SiteBanner extends DataObject
     public function getTypeSource(): array
     {
         $localised = [
-            'info' => _t(self::class . '.TypeLabelInfo', 'Info'),
-            'warning' => _t(self::class . '.TypeLabelWarning', 'Warning'),
-            'alert' => _t(self::class . '.TypeLabelAlert', 'Alert'),
+            static::TYPE_INFO => _t(self::class . '.TypeLabelInfo', 'Info'),
+            static::TYPE_WARNING => _t(self::class . '.TypeLabelWarning', 'Warning'),
+            static::TYPE_ALERT => _t(self::class . '.TypeLabelAlert', 'Alert'),
         ];
 
         $source = [];
