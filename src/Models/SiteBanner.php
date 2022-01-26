@@ -4,13 +4,13 @@ namespace NZTA\SiteBanner\Models;
 
 use DateTime;
 use SilverStripe\Forms\DropdownField;
+use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\FieldType\DBDatetime;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Permission;
 use SilverStripe\Versioned\Versioned;
-use SilverStripe\Forms\FieldList;
 
 /**
  * Class \NZTA\SiteBanner\Models\SiteBanner
@@ -22,96 +22,85 @@ use SilverStripe\Forms\FieldList;
  * @property int $Sort
  * @property int $Version
  * @mixin \SilverStripe\Versioned\Versioned
+ * @phpcs:disable SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
+ * @phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
+ * @phpcs:disable SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingNativeTypeHint
+ * @phpcs:disable SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
  */
 class SiteBanner extends DataObject
 {
 
-    /**
-     * @var array
-     */
-    private static $db = [
-        'Content'   => 'HTMLText', // see getContent()
-        'Type'      => 'Varchar(32)',
+    private static array $db = [
+        'Content' => 'HTMLText', // see getContent()
+        'Type' => 'Varchar(32)',
         'StartDate' => 'Datetime',
-        'EndDate'   => 'Datetime',
-        'Sort'      => 'Int', // only used when 'sortablegridfield' is installed
-        'Dismiss'   => 'Boolean', // allows users to dismiss banners for the remainder of their session
+        'EndDate' => 'Datetime',
+        'Sort' => 'Int', // only used when 'sortablegridfield' is installed
+        'Dismiss' => 'Boolean', // allows users to dismiss banners for the remainder of their session
     ];
 
     /**
-     * @var array Map of a type identifier to a label visible in the CMS.
+     * Map of a type identifier to a label visible in the CMS.
      * Type identifiers are commonly used for CSS classes.
      */
-    private static $types = [
-        'info'    => 'Info',
+    private static array $types = [
+        'info' => 'Info',
         'warning' => 'Warning',
-        'alert'   => 'Alert',
+        'alert' => 'Alert',
     ];
 
     /**
-     * @var bool Enforce start/end dates for banner
+     * Enforce start/end dates for banner
      * @config
      */
-    private static $embargo_enabled = true;
+    private static bool $embargo_enabled = true;
 
     /**
-     * @var array Will require at least one permission if multiple are provided
+     * Will require at least one permission if multiple are provided
      * @config
      */
-    private static $required_permission_codes = [
+    private static array $required_permission_codes = [
         'EDIT_SITECONFIG',
     ];
 
     /**
-     * @var bool
      * @config
      */
-    private static $allow_html = true;
+    private static bool $allow_html = true;
 
-    /**
-     * @var string
-     */
-    private static $default_sort = 'Sort';
+    private static string $default_sort = 'Sort';
 
-    /**
-     * @var array
-     */
-    private static $summary_fields = [
+    private static array $summary_fields = [
         'Content.Summary' => 'Content',
     ];
 
-    /**
-     * @var string
-     */
-    private static $table_name = 'SiteBanner';
+    private static string $table_name = 'SiteBanner';
 
-    /**
-     * @var array
-     */
-    private static $extensions = [
+    private static array $extensions = [
         Versioned::class,
     ];
 
+    /**
+     * @param bool $includerelations
+     * @return array|string[]
+     */
     public function fieldLabels($includerelations = true)
     {
         return array_merge(
             parent::fieldLabels($includerelations),
             [
-                'Content'   => _t(self::class . '.ContentFieldLabel', 'Banner content'),
-                'Type'      => _t(self::class . '.TypeFieldLabel', 'Banner type'),
+                'Content' => _t(self::class . '.ContentFieldLabel', 'Banner content'),
+                'Type' => _t(self::class . '.TypeFieldLabel', 'Banner type'),
                 'StartDate' => _t(self::class . '.StartDateFieldLabel', 'Start date / time'),
-                'EndDate'   => _t(self::class . '.EndDateFieldLabel', 'End date / time'),
-                'Dismiss'   => _t(self::class . '.DismissLabel', 'Allow users to dismiss this banner'),
+                'EndDate' => _t(self::class . '.EndDateFieldLabel', 'End date / time'),
+                'Dismiss' => _t(self::class . '.DismissLabel', 'Allow users to dismiss this banner'),
             ]
         );
     }
 
-    /**
-     * @return FieldList
-     */
-    public function getCMSFields()
+    public function getCMSFields(): FieldList
     {
-        $this->beforeUpdateCMSFields(function (FieldList $fields) {
+        $this->beforeUpdateCMSFields(function (FieldList $fields): void {
             $fields->removeByName('Sort');
 
             $fields->dataFieldByName('Content')
@@ -152,20 +141,20 @@ class SiteBanner extends DataObject
         return parent::getCMSFields();
     }
 
-    /**
-     * @return array
-     */
-    public function getTypeSource()
+    public function getTypeSource(): array
     {
         $localised = [
-            'info'    => _t(self::class . '.TypeLabelInfo', 'Info'),
+            'info' => _t(self::class . '.TypeLabelInfo', 'Info'),
             'warning' => _t(self::class . '.TypeLabelWarning', 'Warning'),
-            'alert'   => _t(self::class . '.TypeLabelAlert', 'Alert'),
+            'alert' => _t(self::class . '.TypeLabelAlert', 'Alert'),
         ];
 
         $source = [];
+
         foreach (static::config()->get('types') as $type => $title) {
-            $source[$type] = array_key_exists($type, $localised) ? $localised[$type] : $title;
+            $source[$type] = array_key_exists($type, $localised)
+                ? $localised[$type]
+                : $title;
         }
 
         return $source;
@@ -175,10 +164,9 @@ class SiteBanner extends DataObject
      * Check if the Site Banner should be displayed. It should be displayed if there is content
      * and the current date/time is within the start and end date/times for the banner.
      *
-     * @return boolean
      * @throws \Exception
      */
-    public function isActive()
+    public function isActive(): bool
     {
         $config = $this->config();
 
@@ -191,23 +179,29 @@ class SiteBanner extends DataObject
             return true;
         }
 
+<<<<<<< HEAD
         $isoFormat = DBDatetime::now()->Format(DBDatetime::ISO_DATETIME);
         $startDate = new DateTime($this->StartDate ?? $isoFormat);
         $endDate   = new DateTime($this->EndDate ?? $isoFormat);
         $now       = new DateTime($isoFormat);
+=======
+        $startDate = new DateTime($this->StartDate);
+        $endDate = new DateTime($this->EndDate);
+        $now = new DateTime(DBDatetime::now()->Format(DBDatetime::ISO_DATETIME));
+>>>>>>> b29995a (Update codebase standard to comply with phpcs)
 
         // Check if the current time falls between the start and end dates.
-        return ((!$this->StartDate || $startDate <= $now) && (!$this->EndDate || $endDate >= $now));
+        return (!$this->StartDate || $startDate <= $now) && (!$this->EndDate || $endDate >= $now);
     }
 
     /**
-     * @param null|Member $member
-     *
+     * @param Member|null $member
      * @return bool|int
      */
     public function canView($member = null)
     {
         $extended = $this->extendedCan(__FUNCTION__, $member);
+
         if ($extended !== null) {
             return $extended;
         }
@@ -216,14 +210,14 @@ class SiteBanner extends DataObject
     }
 
     /**
-     * @param null|Member $member
+     * @param Member|null $member
      * @param array $context
-     *
      * @return bool|int
      */
     public function canCreate($member = null, $context = [])
     {
         $extended = $this->extendedCan(__FUNCTION__, $member);
+
         if ($extended !== null) {
             return $extended;
         }
@@ -232,13 +226,13 @@ class SiteBanner extends DataObject
     }
 
     /**
-     * @param null|Member $member
-     *
+     * @param Member|null $member
      * @return bool|int
      */
     public function canEdit($member = null)
     {
         $extended = $this->extendedCan(__FUNCTION__, $member);
+
         if ($extended !== null) {
             return $extended;
         }
@@ -247,13 +241,13 @@ class SiteBanner extends DataObject
     }
 
     /**
-     * @param null|Member $member
-     *
+     * @param Member|null $member
      * @return bool|int
      */
     public function canDelete($member = null)
     {
         $extended = $this->extendedCan(__FUNCTION__, $member);
+
         if ($extended !== null) {
             return $extended;
         }
