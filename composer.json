@@ -3,7 +3,11 @@
     "description": "Site-wide banners activated through the CMS",
     "type": "silverstripe-vendormodule",
     "homepage": "https://github.com/silverstripe/silverstripe-sitebanner",
-    "keywords": ["silverstripe", "banner", "cms"],
+    "keywords": [
+        "silverstripe",
+        "banner",
+        "cms"
+    ],
     "license": "BSD-3-Clause",
     "support": {
         "issues": "https://github.com/silverstripe/silverstripe-sitebanner/issues"
@@ -12,12 +16,17 @@
         "silverstripe/cms": "^4"
     },
     "require-dev": {
-        "phpunit/phpunit": "^5.7"
+        "silverstripe/recipe-testing": "^2"
     },
     "extra": {
         "installer-name": "sitebanner",
         "expose": [
             "client"
+        ],
+        "project-files-installed": [
+            "behat.yml",
+            "phpcs.xml.dist",
+            "phpunit.xml.dist"
         ]
     },
     "autoload": {

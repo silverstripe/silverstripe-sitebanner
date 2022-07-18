@@ -10,7 +10,7 @@ use SilverStripe\ORM\FieldType\DBDatetime;
 class SiteBannerTest extends SapphireTest
 {
 
-    public function testIsActiveWithoutEmbargoWithEmptyContent()
+    public function testIsActiveWithoutEmbargoWithEmptyContent(): void
     {
         Config::inst()->update(SiteBanner::class, 'embargo_enabled', false);
         $banner = new SiteBanner();
@@ -18,7 +18,7 @@ class SiteBannerTest extends SapphireTest
         $this->assertFalse($banner->isActive());
     }
 
-    public function testIsActiveWithoutEmbargoWithContent()
+    public function testIsActiveWithoutEmbargoWithContent(): void
     {
         Config::inst()->update('SiteBanner', 'embargo_enabled', false);
         $banner = new SiteBanner();
@@ -26,7 +26,7 @@ class SiteBannerTest extends SapphireTest
         $this->assertTrue($banner->isActive());
     }
 
-    public function testIsActiveWithEmbargoStartDate()
+    public function testIsActiveWithEmbargoStartDate(): void
     {
         Config::inst()->update('SiteBanner', 'embargo_enabled', true);
         $banner = new SiteBanner();
@@ -40,7 +40,7 @@ class SiteBannerTest extends SapphireTest
         $this->assertTrue($banner->isActive());
     }
 
-    public function testIsActiveWithEmbargoEndDate()
+    public function testIsActiveWithEmbargoEndDate(): void
     {
         Config::inst()->update('SiteBanner', 'embargo_enabled', true);
         $banner = new SiteBanner();
