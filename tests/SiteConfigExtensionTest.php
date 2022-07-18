@@ -17,7 +17,7 @@ class SiteConfigExtensionTest extends SapphireTest
         ]
     ];
 
-    public function testFiltersInactiveBanners()
+    public function testFiltersInactiveBanners(): void
     {
         $activeBanner = new SiteBanner();
         $activeBanner->Content = 'test';
