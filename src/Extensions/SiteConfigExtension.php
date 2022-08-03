@@ -12,6 +12,7 @@ use SilverStripe\Forms\GridField\GridFieldPaginator;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataExtension;
 use SilverStripe\View\Requirements;
+use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 
 /**
  * Allows editing of site banner data "globally".
@@ -25,7 +26,7 @@ class SiteConfigExtension extends DataExtension
     {
         $fields->findOrMakeTab(
             'Root.SiteBanner',
-            _t(self::class . '.TabTitle', 'Site Banners')
+            _t(self::class . '.TabTitle', 'Site Banners'),
         );
 
         $gridConfig = GridFieldConfig_RecordEditor::create();
@@ -37,7 +38,7 @@ class SiteConfigExtension extends DataExtension
         $gridConfig->removeComponentsByType(GridFieldDeleteAction::class);
 
         if (class_exists('Symbiote\GridFieldExtensions\GridFieldOrderableRows')) {
-            $grid->getConfig()->addComponent(new \Symbiote\GridFieldExtensions\GridFieldOrderableRows('Sort'));
+            $grid->getConfig()->addComponent(GridFieldOrderableRows::create('Sort'));
         }
 
         $fields->addFieldToTab('Root.SiteBanner', $grid);
@@ -51,8 +52,7 @@ class SiteConfigExtension extends DataExtension
         Requirements::css('nzta/silverstripe-sitebanner: client/css/site-banner.css');
         Requirements::javascript('nzta/silverstripe-sitebanner: client/javascript/site-banner.js');
 
-        return SiteBanner::get()->filterByCallback(static function ($banner) {
-            return $banner->isActive();
-        });
+        return SiteBanner::get()->filterByCallback(static fn ($banner) => $banner->isActive());
     }
+
 }
