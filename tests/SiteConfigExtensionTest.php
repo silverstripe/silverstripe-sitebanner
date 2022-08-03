@@ -13,6 +13,7 @@ use SilverStripe\SiteConfig\SiteConfig;
  */
 class SiteConfigExtensionTest extends SapphireTest
 {
+
     protected $usesDatabase = true;
 
     protected static $required_extensions = [
@@ -35,4 +36,5 @@ class SiteConfigExtensionTest extends SapphireTest
         $this->assertContains($activeBanner->ID, $banners->column('ID'));
         $this->assertNotContains($inactiveBanner->ID, $banners->column('ID'));
     }
+
 }

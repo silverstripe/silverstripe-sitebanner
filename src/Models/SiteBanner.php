@@ -29,6 +29,7 @@ use SilverStripe\Versioned\Versioned;
  */
 class SiteBanner extends DataObject
 {
+
     /**
      * Constants of the supported banner types
      */
@@ -102,51 +103,71 @@ class SiteBanner extends DataObject
                 'StartDate' => _t(self::class . '.StartDateFieldLabel', 'Start date / time'),
                 'EndDate' => _t(self::class . '.EndDateFieldLabel', 'End date / time'),
                 'Dismiss' => _t(self::class . '.DismissLabel', 'Allow users to dismiss this banner'),
-            ]
+            ],
         );
     }
 
     public function getCMSFields(): FieldList
     {
         $this->beforeUpdateCMSFields(function (FieldList $fields): void {
-            $fields->removeByName('Sort');
-
-            $fields->dataFieldByName('Content')
-                ->setRows(2)// indicate to authors that this should be kept short
-                ->setDescription(_t(
-                    self::class . '.ContentFieldDesc',
-                    'Appears at the top of each page on the site. '
-                    . 'The banner will not display until content has been added.'
-                ));
-
-            $fields->replaceField(
-                'Type',
-                DropdownField::create('Type', $this->fieldLabel('Type'), $this->getTypeSource())
-            );
-
-            if (!$this->config()->allow_html) {
-                $fields->replaceField('Content', new TextField('Content', $this->fieldLabel('Content')));
-            }
-
-            if (static::config()->embargo_enabled) {
-                $startDate = $fields->dataFieldByName('StartDate');
-                $startDate->setDescription(_t(
-                    self::class . '.StartDateFieldDesc',
-                    'When to start showing the banner. Leave this blank to start showing the banner immediately.'
-                ));
-
-                $endDate = $fields->dataFieldByName('EndDate');
-                $endDate->setDescription(_t(
-                    self::class . '.EndDateFieldDesc',
-                    'When to stop showing the banner. Leave this blank to show the banner indefinitely.'
-                ));
-            } else {
-                $fields->removeByName('StartDate');
-                $fields->removeByName('EndDate');
-            }
+            $this->buildMainFields($fields);
+            $this->buildEmbargoFields($fields);
         });
 
         return parent::getCMSFields();
+    }
+
+    /**
+     * Build CMS fields related to main/standard fields
+     */
+    protected function buildMainFields(FieldList $fields): void
+    {
+        $fields->removeByName('Sort');
+
+        $fields->dataFieldByName('Content')
+            ->setRows(2)// indicate to authors that this should be kept short
+            ->setDescription(_t(
+                self::class . '.ContentFieldDesc',
+                'Appears at the top of each page on the site. '
+                . 'The banner will not display until content has been added.',
+            ));
+
+        $fields->replaceField(
+            'Type',
+            DropdownField::create('Type', $this->fieldLabel('Type'), $this->getTypeSource()),
+        );
+
+        // Use plain text or keep the HTML editor field for content
+        if ($this->config()->get('allow_html')) {
+            return;
+        }
+
+        $fields->replaceField('Content', TextField::create('Content', $this->fieldLabel('Content')));
+    }
+
+    /**
+     * Build CMS fields related to Embargo feature
+     */
+    protected function buildEmbargoFields(FieldList $fields): void
+    {
+        if (!static::config()->embargo_enabled) {
+            $fields->removeByName('StartDate');
+            $fields->removeByName('EndDate');
+
+            return;
+        }
+
+        $startDate = $fields->dataFieldByName('StartDate');
+        $startDate->setDescription(_t(
+            self::class . '.StartDateFieldDesc',
+            'When to start showing the banner. Leave this blank to start showing the banner immediately.',
+        ));
+
+        $endDate = $fields->dataFieldByName('EndDate');
+        $endDate->setDescription(_t(
+            self::class . '.EndDateFieldDesc',
+            'When to stop showing the banner. Leave this blank to show the banner indefinitely.',
+        ));
     }
 
     public function getTypeSource(): array
@@ -187,16 +208,10 @@ class SiteBanner extends DataObject
             return true;
         }
 
-<<<<<<< HEAD
         $isoFormat = DBDatetime::now()->Format(DBDatetime::ISO_DATETIME);
         $startDate = new DateTime($this->StartDate ?? $isoFormat);
-        $endDate   = new DateTime($this->EndDate ?? $isoFormat);
-        $now       = new DateTime($isoFormat);
-=======
-        $startDate = new DateTime($this->StartDate);
-        $endDate = new DateTime($this->EndDate);
-        $now = new DateTime(DBDatetime::now()->Format(DBDatetime::ISO_DATETIME));
->>>>>>> b29995a (Update codebase standard to comply with phpcs)
+        $endDate = new DateTime($this->EndDate ?? $isoFormat);
+        $now = new DateTime($isoFormat);
 
         // Check if the current time falls between the start and end dates.
         return (!$this->StartDate || $startDate <= $now) && (!$this->EndDate || $endDate >= $now);
@@ -210,11 +225,7 @@ class SiteBanner extends DataObject
     {
         $extended = $this->extendedCan(__FUNCTION__, $member);
 
-        if ($extended !== null) {
-            return $extended;
-        }
-
-        return Permission::checkMember($member, $this->config()->required_permission_codes);
+        return $extended ?? Permission::checkMember($member, $this->config()->required_permission_codes);
     }
 
     /**
@@ -226,11 +237,7 @@ class SiteBanner extends DataObject
     {
         $extended = $this->extendedCan(__FUNCTION__, $member);
 
-        if ($extended !== null) {
-            return $extended;
-        }
-
-        return Permission::checkMember($member, $this->config()->required_permission_codes);
+        return $extended ?? Permission::checkMember($member, $this->config()->required_permission_codes);
     }
 
     /**
@@ -241,11 +248,7 @@ class SiteBanner extends DataObject
     {
         $extended = $this->extendedCan(__FUNCTION__, $member);
 
-        if ($extended !== null) {
-            return $extended;
-        }
-
-        return Permission::checkMember($member, $this->config()->required_permission_codes);
+        return $extended ?? Permission::checkMember($member, $this->config()->required_permission_codes);
     }
 
     /**
@@ -256,10 +259,7 @@ class SiteBanner extends DataObject
     {
         $extended = $this->extendedCan(__FUNCTION__, $member);
 
-        if ($extended !== null) {
-            return $extended;
-        }
-
-        return Permission::checkMember($member, $this->config()->required_permission_codes);
+        return $extended ?? Permission::checkMember($member, $this->config()->required_permission_codes);
     }
+
 }
