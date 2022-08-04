@@ -53,5 +53,4 @@ class SiteBannerTest extends SapphireTest
         DBDatetime::set_mock_now('2017-01-01 13:00:00');
         $this->assertFalse($banner->isActive());
     }
-
 }

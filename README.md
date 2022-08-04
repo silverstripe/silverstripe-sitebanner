@@ -30,13 +30,29 @@ of the page they're viewing.
 
 ## Configuration
 
-Add the following to your YAML config to activate the module:
+#### Site settings
+Add the following to your YAML config to configure the module:
 
 	SilverStripe\SiteConfig\SiteConfig:
 	  extensions:
 	    - NZTA\SiteBanner\Extensions\SiteConfigExtension
 
+Add the following environment variable to you `.env` file to activate the
+the module in site settings:
+
+```
+SITEBANNER_SITECONFIG=1
+```
+
 The site banner can be configured in `admin/settings` now.
+
+#### Model admin
+Add the following environment variable to your `.env` file to enable
+the model admin interface for managing the site banners
+
+```
+SITEBANNER_MODELADMIN=1
+```
 
 ## Templates
 
