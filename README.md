@@ -1,10 +1,6 @@
 # Site Wide Banners
 
-[![Build Status](https://secure.travis-ci.org/silverstripe/silverstripe-sitebanner.png?branch=master)](http://travis-ci.org/silverstripe/silverstripe-sitebanner)
-
-Allows CMS authors to create site-wide banners,
-to alert visitors of important information regardless
-of the page they're viewing.
+Allows CMS authors to create site-wide banners, to alert visitors of important information regardless of the page they're viewing.
 
 ## Features
 
@@ -59,7 +55,7 @@ SITEBANNER_MODELADMIN=1
 In order to show the banners, you need to add them to your template:
 
 	<% loop $SiteConfig.SiteBanners %>
-        <div id="site-banner-$ID" class="site-banner site-banner-$Type" role="alert" data-id="$ID" aria-hidden="true">
+        <div id="site-banner-$ID" class="site-banner site-banner-$Type" role="alert" data-id="$ID" aria-hidden="true" data-nosnippet>
             $Content
             <% if $Dismiss %>
                 <button class="site-banner-close" aria-label="Close" data-id="$ID">×</button>
@@ -75,19 +71,19 @@ and [icons](http://getbootstrap.com/components/#glyphicons).
 
 	<% loop $SiteConfig.SiteBanners %>
         <% if $Type == 'info' %>
-            <p class="bg-info site-banner site-banner-$Type" role="alert" data-id="$ID" aria-hidden="true">
+            <p class="bg-info site-banner site-banner-$Type" role="alert" data-id="$ID" aria-hidden="true" data-nosnippet>
                 <span class="glyphicon glyphicon-info-sign" aria-hidden="true" />
                 $Content
             </p>
         <% end_if %>
         <% if $Type == 'warning' %>
-            <p class="bg-warning site-banner site-banner-$Type" role="alert" data-id="$ID" aria-hidden="true">
+            <p class="bg-warning site-banner site-banner-$Type" role="alert" data-id="$ID" aria-hidden="true" data-nosnippet>
                 <span class="glyphicon glyphicon-warning-sign" aria-hidden="true" />
                 $Content
             </p>
         <% end_if %>
         <% if $Type == 'alert' %>
-            <p class="bg-danger site-banner site-banner-$Type" role="alert" data-id="$ID" aria-hidden="true">
+            <p class="bg-danger site-banner site-banner-$Type" role="alert" data-id="$ID" aria-hidden="true" data-nosnippet>
                 <span class="glyphicon glyphicon-warning-sign" aria-hidden="true" />
                 $Content
             </p>
