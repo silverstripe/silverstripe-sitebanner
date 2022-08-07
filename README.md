@@ -22,7 +22,7 @@ Allows CMS authors to create site-wide banners, to alert visitors of important i
 
 ## Installation
 
-	composer require nzta/silverstripe-sitebanner:
+	composer require nzta/silverstripe-sitebanner
 
 ## Configuration
 
@@ -55,7 +55,7 @@ SITEBANNER_MODELADMIN=1
 In order to show the banners, you need to add them to your template:
 
 	<% loop $SiteConfig.SiteBanners %>
-        <div id="site-banner-$ID" class="site-banner site-banner-$Type" role="alert" data-id="$ID" aria-hidden="true" data-nosnippet>
+        <div id="site-banner-$ID" class="site-banner site-banner-$Type site-banner--hidden" role="alert" data-id="$ID" aria-hidden="true" data-nosnippet>
             $Content
             <% if $Dismiss %>
                 <button class="site-banner-close" aria-label="Close" data-id="$ID">×</button>
@@ -71,19 +71,19 @@ and [icons](http://getbootstrap.com/components/#glyphicons).
 
 	<% loop $SiteConfig.SiteBanners %>
         <% if $Type == 'info' %>
-            <p class="bg-info site-banner site-banner-$Type" role="alert" data-id="$ID" aria-hidden="true" data-nosnippet>
+            <p class="bg-info site-banner site-banner-$Type site-banner--hidden" role="alert" data-id="$ID" aria-hidden="true" data-nosnippet>
                 <span class="glyphicon glyphicon-info-sign" aria-hidden="true" />
                 $Content
             </p>
         <% end_if %>
         <% if $Type == 'warning' %>
-            <p class="bg-warning site-banner site-banner-$Type" role="alert" data-id="$ID" aria-hidden="true" data-nosnippet>
+            <p class="bg-warning site-banner site-banner-$Type site-banner--hidden" role="alert" data-id="$ID" aria-hidden="true" data-nosnippet>
                 <span class="glyphicon glyphicon-warning-sign" aria-hidden="true" />
                 $Content
             </p>
         <% end_if %>
         <% if $Type == 'alert' %>
-            <p class="bg-danger site-banner site-banner-$Type" role="alert" data-id="$ID" aria-hidden="true" data-nosnippet>
+            <p class="bg-danger site-banner site-banner-$Type site-banner--hidden" role="alert" data-id="$ID" aria-hidden="true" data-nosnippet>
                 <span class="glyphicon glyphicon-warning-sign" aria-hidden="true" />
                 $Content
             </p>

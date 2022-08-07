@@ -1,3 +1,4 @@
-.site-banner[aria-hidden='true'] {
-    display: none;
+.site-banner[aria-hidden='true'],
+.site-banner--hidden {
+  display: none;
 }
