@@ -2,33 +2,30 @@
 
 namespace NZTA\SiteBanner\Tests;
 
-use NZTA\SiteBanner\Models\SiteBanner;
 use NZTA\SiteBanner\Extensions\SiteConfigExtension;
+use SilverStripe\Core\Environment;
 use SilverStripe\Dev\SapphireTest;
+use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\SiteConfig\SiteConfig;
 
+/**
+ * @phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
+ * @phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
+ */
 class SiteConfigExtensionTest extends SapphireTest
 {
-    protected $usesDatabase = true;
-
-    protected static $required_extensions = [
-        SiteConfig::class => [
-            SiteConfigExtension::class
-        ]
-    ];
-
-    public function testFiltersInactiveBanners()
+    public function testIsSiteConfigGridFieldActive(): void
     {
-        $activeBanner = new SiteBanner();
-        $activeBanner->Content = 'test';
-        $activeBanner->write();
+        $extension = new SiteConfigExtension();
 
-        $inactiveBanner = new SiteBanner();
-        $inactiveBanner->Content = '';
-        $inactiveBanner->write();
+        $fields = (new SiteConfig())->getCMSFields();
+        $extension->updateCMSFields($fields);
 
-        $banners = singleton(SiteConfig::class)->getSiteBanners();
-        $this->assertContains($activeBanner->ID, $banners->column('ID'));
-        $this->assertNotContains($inactiveBanner->ID, $banners->column('ID'));
+        $this->assertNull($fields->dataFieldByName('SiteBanners'));
+
+        Environment::setEnv('SITEBANNER_SITECONFIG', 1);
+        $extension->updateCMSFields($fields);
+
+        $this->assertInstanceOf(GridField::class, $fields->dataFieldByName('SiteBanners'));
     }
 }

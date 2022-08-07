@@ -3,35 +3,68 @@
     "description": "Site-wide banners activated through the CMS",
     "type": "silverstripe-vendormodule",
     "homepage": "https://github.com/silverstripe/silverstripe-sitebanner",
-    "keywords": ["silverstripe", "banner", "cms"],
+    "keywords": [
+        "silverstripe",
+        "banner",
+        "cms"
+    ],
     "license": "BSD-3-Clause",
     "support": {
         "issues": "https://github.com/silverstripe/silverstripe-sitebanner/issues"
     },
     "require": {
+        "php": ">= 8.0",
         "silverstripe/cms": "^4"
     },
     "require-dev": {
-        "phpunit/phpunit": "^5.7"
+        "phpunit/phpunit": "^9.5",
+        "squizlabs/php_codesniffer": "^3",
+        "slevomat/coding-standard": "^8.1",
+        "php-parallel-lint/php-parallel-lint": "^1.2",
+        "phpcompatibility/php-compatibility": "^9.3"
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     },
     "extra": {
         "installer-name": "sitebanner",
         "expose": [
             "client"
+        ],
+        "project-files-installed": [
+            "behat.yml",
+            "phpcs.xml.dist",
+            "phpunit.xml.dist"
         ]
     },
     "autoload": {
         "psr-4": {
-            "NZTA\\SiteBanner\\Extensions\\": "src/extensions",
-            "NZTA\\SiteBanner\\Models\\": "src/models"
+            "NZTA\\SiteBanner\\": "src"
         }
     },
     "suggest": {
         "symbiote/silverstripe-gridfieldextensions": "Allows sorting of site banners"
     },
-    "scripts": {
-        "lint": "phpcs src/ tests/"
-    },
+    "minimum-stability": "dev",
     "prefer-stable": true,
-    "minimum-stability": "dev"
+    "scripts": {
+        "silverstripe-standards": [
+            "@php-lint",
+            "@phpcs"
+        ],
+        "test": [
+            "@test-phpunit"
+        ],
+        "test-phpunit": "phpunit -d memory_limit=512M -d flush=1",
+        "test-phpunit-with-coverage": [
+            "phpunit --coverage-html coverage/php --coverage-clover coverage/php/clover.xml"
+        ],
+        "php-lint": "parallel-lint src tests",
+        "phpcs": "phpcs src tests --standard=phpcs.xml --extensions=php --encoding=utf-8",
+        "phpcbf": "phpcbf src tests --standard=phpcs.xml --extensions=php --encoding=utf-8",
+        "sniffer:php81": "phpcs -p ./src --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility --runtime-set testVersion 8.1"
+    }
 }
