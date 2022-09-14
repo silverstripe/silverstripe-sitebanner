@@ -18,12 +18,14 @@ class AdminTest extends SapphireTest
         $this->logInWithPermission('ADMIN');
 
         $admin = new Admin();
-        // Assert can't access model admin without environment var
-        $this->assertFalse($admin->canView());
 
-        Environment::setEnv('SITEBANNER_MODELADMIN', 1);
-        // Assert can access model admin with environment var
+        // Assert can access model admin accessible by default
         $this->assertTrue($admin->canView());
+
+        Environment::setEnv('SITEBANNER_SITECONFIG', true);
+
+        // Assert can't access model admin when site config environment var is true
+        $this->assertFalse($admin->canView());
     }
 
 }
