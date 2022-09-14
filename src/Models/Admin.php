@@ -32,7 +32,7 @@ class Admin extends ModelAdmin
      */
     public function canView($member = null)
     {
-        return Environment::getEnv('SITEBANNER_MODELADMIN') && parent::canView($member);
+        return !Environment::getEnv('SITEBANNER_SITECONFIG') && parent::canView($member);
     }
 
     public function getGridFieldConfig(): GridFieldConfig

@@ -34,7 +34,7 @@ Add the following to your YAML config to configure the module:
 	    - NZTA\SiteBanner\Extensions\SiteConfigExtension
 
 Add the following environment variable to you `.env` file to activate the
-the module in site settings:
+ module in site settings:
 
 ```
 SITEBANNER_SITECONFIG=1
@@ -43,12 +43,7 @@ SITEBANNER_SITECONFIG=1
 The site banner can be configured in `admin/settings` now.
 
 #### Model admin
-Add the following environment variable to your `.env` file to enable
-the model admin interface for managing the site banners
-
-```
-SITEBANNER_MODELADMIN=1
-```
+By default, the site banners are managed from the model admin interface.
 
 ## Templates
 
