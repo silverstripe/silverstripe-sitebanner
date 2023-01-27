@@ -190,13 +190,16 @@ class SiteBanner extends DataObject
         if (!$config->embargo_enabled) {
             return true;
         }
+        if ($this->StartDate && $this->EndDate) {
+            $startDate = new DateTime($this->StartDate);
+            $endDate   = new DateTime($this->EndDate);
+            $now       = new DateTime(DBDatetime::now()->Format(DBDatetime::ISO_DATETIME));
 
-        $startDate = new DateTime($this->StartDate);
-        $endDate   = new DateTime($this->EndDate);
-        $now       = new DateTime(DBDatetime::now()->Format(DBDatetime::ISO_DATETIME));
+            // Check if the current time falls between the start and end dates.
+            return ((!$this->StartDate || $startDate <= $now) && (!$this->EndDate || $endDate >= $now));
+        }
 
-        // Check if the current time falls between the start and end dates.
-        return ((!$this->StartDate || $startDate <= $now) && (!$this->EndDate || $endDate >= $now));
+        return false;
     }
 
     /**
