@@ -20,6 +20,11 @@ Allows CMS authors to create site-wide banners, to alert visitors of important i
 
 ![CMS Preview](docs/_img/cms-screenshot.png)
 
+## Requirements
+
+* php >= 8.0
+* SilverStripe ^4 || ^5
+
 ## Installation
 
 	composer require nzta/silverstripe-sitebanner
