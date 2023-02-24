@@ -12,7 +12,7 @@ class SiteBannerTest extends SapphireTest
 
     public function testIsActiveWithoutEmbargoWithEmptyContent(): void
     {
-        Config::inst()->merge(SiteBanner::class, 'embargo_enabled', false);
+        Config::inst()->merge(SiteBanner::class, null , ['embargo_enabled' => false]);
         $banner = new SiteBanner();
         $banner->Content = null;
         $this->assertFalse($banner->isActive());
@@ -20,7 +20,7 @@ class SiteBannerTest extends SapphireTest
 
     public function testIsActiveWithoutEmbargoWithContent(): void
     {
-        Config::inst()->merge('SiteBanner', 'embargo_enabled', false);
+        Config::inst()->merge('SiteBanner', null , ['embargo_enabled' => false]);
         $banner = new SiteBanner();
         $banner->Content = 'test';
         $this->assertTrue($banner->isActive());
@@ -28,7 +28,7 @@ class SiteBannerTest extends SapphireTest
 
     public function testIsActiveWithEmbargoStartDate(): void
     {
-        Config::inst()->merge('SiteBanner', 'embargo_enabled', true);
+        Config::inst()->merge('SiteBanner', null , ['embargo_enabled' => true]);
         $banner = new SiteBanner();
         $banner->Content = 'test';
         $banner->StartDate = '2017-01-01 12:00:00';
@@ -42,7 +42,7 @@ class SiteBannerTest extends SapphireTest
 
     public function testIsActiveWithEmbargoEndDate(): void
     {
-        Config::inst()->merge('SiteBanner', 'embargo_enabled', true);
+        Config::inst()->merge('SiteBanner', null , ['embargo_enabled' => true]);
         $banner = new SiteBanner();
         $banner->Content = 'test';
         $banner->EndDate = '2017-01-01 12:00:00';
