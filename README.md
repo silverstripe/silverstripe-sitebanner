@@ -23,7 +23,9 @@ Allows CMS authors to create site-wide banners, to alert visitors of important i
 ## Requirements
 
 * php >= 8.0
-* SilverStripe ^4 || ^5
+* SilverStripe ^5
+
+For a Silverstripe CMS ^4 compatible version of this module, please see the [releases <=3.0.1](https://github.com/silverstripe/silverstripe-sitebanner/tree/3.0.1).
 
 ## Installation
 
