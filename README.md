@@ -49,6 +49,12 @@ SITEBANNER_SITECONFIG=1
 
 The site banner can be configured in `admin/settings` now.
 
+> Note: The site settings interface is a legacy feature that exists to keep
+> background compatibility for anyone who still want to use this interface.
+> This feature won't receive future updates, and we recommend using the default
+> implementation with model admin. With admin model we are not forced to expose
+> site settings to CMS users who must only be allowed to managed site banners.
+
 #### Model admin
 By default, the site banners are managed from the model admin interface.
 
