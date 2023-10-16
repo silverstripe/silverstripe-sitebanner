@@ -1,3 +1,13 @@
+---
+Name: sitebanner
+---
+NZTA\SiteBanner\Models\SiteBanner:
+  extensions:
+    - NZTA\SiteBanner\Extensions\PageSelectionExtension
+
+NZTA\SiteBanner\Extensions\PageSelectionExtension:
+  enabled: false
+
 # SilverStripe\SiteConfig\SiteConfig:
 #   extensions:
 #     - NZTA\SiteBanner\Extensions\SiteConfigExtension

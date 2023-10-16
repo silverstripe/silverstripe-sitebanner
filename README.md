@@ -62,7 +62,7 @@ By default, the site banners are managed from the model admin interface.
 
 In order to show the banners, you need to add them to your template:
 
-	<% loop $SiteConfig.SiteBanners %>
+	<% loop $SiteBanners %>
         <div id="site-banner-$ID" class="site-banner site-banner-$Type site-banner--hidden" role="alert" data-id="$ID" aria-hidden="true" data-nosnippet>
             $Content
             <% if $Dismiss %>
@@ -77,7 +77,7 @@ If you're using Bootstrap, it's easy to get useful default styles for alerts
 through a combination of [contextual backgrounds](http://getbootstrap.com/css/#helper-classes-backgrounds)
 and [icons](http://getbootstrap.com/components/#glyphicons).
 
-	<% loop $SiteConfig.SiteBanners %>
+	<% loop $SiteBanners %>
         <% if $Type == 'info' %>
             <p class="bg-info site-banner site-banner-$Type site-banner--hidden" role="alert" data-id="$ID" aria-hidden="true" data-nosnippet>
                 <span class="glyphicon glyphicon-info-sign" aria-hidden="true" />
@@ -106,6 +106,26 @@ Examples on the SilverStripe default theme:
 
 ![Alert styling](docs/_img/alert.png)
 
+## Features
+
+### Display banners only on the selected pages
+`NZTA\SiteBanner\Extensions\PageSelectionExtension`
+
+Add the followig to your YML file to enable the fature
+
+```yml
+---
+Name: app-sitebanenr
+After: sitebanner
+---
+
+NZTA\SiteBanner\Extensions\PageSelectionExtension:
+  enabled: true
+```
+
+Then you are going to have a tab with gridfield to select the pages a banner must be visible on that page only.
+
+In template, you will need to pass the page ID to `<% loop $SiteBanners($PageID) %>`
 ## Permissions
 
 By default, every author with access to the "Settings" section (`EDIT_SITECONFIG` permission code)

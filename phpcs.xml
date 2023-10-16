@@ -85,6 +85,17 @@
         <exclude name="SlevomatCodingStandard.Arrays.AlphabeticallySortedByKeys.IncorrectKeyOrder"/>
     </rule>
 
+    <rule ref="SlevomatCodingStandard.Functions.FunctionLength">
+        <properties>
+            <property name="maxLinesLength" type="int" value="30"/>
+        </properties>
+    </rule>
+    <rule ref="SlevomatCodingStandard.Files.FunctionLength">
+        <properties>
+            <property name="maxLinesLength" type="int" value="30"/>
+        </properties>
+    </rule>
+
     <rule ref="SlevomatCodingStandard.Namespaces.UnusedUses">
         <properties>
             <property name="searchAnnotations" type="bool" value="true"/>

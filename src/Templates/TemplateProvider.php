@@ -19,12 +19,17 @@ class TemplateProvider implements TemplateGlobalProvider
     /**
      * Get all displayable site banners
      */
-    public static function getSiteBanners(): ArrayList
+    public static function getSiteBanners(?int $pageId = null): ArrayList
     {
         Requirements::css('nzta/silverstripe-sitebanner: client/css/site-banner.css');
         Requirements::javascript('nzta/silverstripe-sitebanner: client/javascript/site-banner.js');
 
-        return SiteBanner::get()->filterByCallback(static function ($banner) {
+        $query = SiteBanner::get();
+
+        // Apply extension filters if any
+        $query = singleton(SiteBanner::class)->onFrontendQuery($query, $pageId);
+
+        return $query->filterByCallback(static function ($banner) {
             return $banner->isActive();
         });
     }
