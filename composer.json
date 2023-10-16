@@ -13,7 +13,7 @@
         "issues": "https://github.com/silverstripe/silverstripe-sitebanner/issues"
     },
     "require": {
-        "php": ">= 8.0",
+        "php": "^8.3",
         "silverstripe/cms": "^6"
     },
     "require-dev": {
