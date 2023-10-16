@@ -83,6 +83,14 @@
         <exclude name="SlevomatCodingStandard.Functions.DisallowTrailingCommaInCall.DisallowedTrailingComma"/>
         <exclude name="SlevomatCodingStandard.Functions.DisallowArrowFunction.DisallowedArrowFunction"/>
         <exclude name="SlevomatCodingStandard.Arrays.AlphabeticallySortedByKeys.IncorrectKeyOrder"/>
+        <exclude name="SlevomatCodingStandard.TypeHints.ClassConstantTypeHint.MissingNativeTypeHint"/>
+        <exclude name="SlevomatCodingStandard.Functions.FunctionLength.FunctionLength"/>
+    </rule>
+
+    <rule ref="SlevomatCodingStandard.Functions.FunctionLength">
+        <properties>
+            <property name="maxLinesLength" type="int" value="30"/>
+        </properties>
     </rule>
 
     <rule ref="SlevomatCodingStandard.Namespaces.UnusedUses">
