@@ -3,11 +3,14 @@
 namespace NZTA\SiteBanner\Models;
 
 use DateTime;
+use SilverStripe\CMS\Model\SiteTree;
+use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\FieldType\DBDatetime;
+use SilverStripe\ORM\SS_List;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Permission;
 use SilverStripe\Versioned\Versioned;
@@ -216,6 +219,20 @@ class SiteBanner extends DataObject
 
         // Check if the current time falls between the start and end dates.
         return (!$this->StartDate || $startDate <= $now) && (!$this->EndDate || $endDate >= $now);
+    }
+
+    /**
+     * Get banners to display
+     */
+    public static function getBanners(?int $pageId, ?string $className = SiteTree::class): SS_List
+    {
+        $query = static::get();
+
+        if ($pageId && $className) {
+            Injector::inst()->get(static::class)->extend('onFrontendQuery', $query, $pageId, $className);
+        }
+
+        return $query;
     }
 
     /**

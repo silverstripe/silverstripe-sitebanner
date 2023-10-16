@@ -17,6 +17,13 @@ use SilverStripe\ORM\DataList;
  */
 class TemplateProviderTest extends SapphireTest
 {
+    public function testGlobalTemplates(): void
+    {
+        $this->assertSame([
+            'SiteBanners' => 'getSiteBanners',
+        ], TemplateProvider::get_template_global_variables());
+    }
+
     public function testFiltersInactiveBanners(): void
     {
         // Mock data list with 3 site banners 2 active, 1 inactive
