@@ -3,7 +3,7 @@
 namespace NZTA\SiteBanner\Templates;
 
 use NZTA\SiteBanner\Models\SiteBanner;
-use SilverStripe\ORM\ArrayList;
+use SilverStripe\Model\List\ArrayList;
 use SilverStripe\View\Requirements;
 use SilverStripe\View\TemplateGlobalProvider;
 

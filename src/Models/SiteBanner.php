@@ -33,9 +33,9 @@ class SiteBanner extends DataObject
     /**
      * Constants of the supported banner types
      */
-    protected const TYPE_INFO = 'info';
-    protected const TYPE_WARNING = 'warning';
-    protected const TYPE_ALERT = 'alert';
+    protected const string TYPE_INFO = 'info';
+    protected const string TYPE_WARNING = 'warning';
+    protected const string TYPE_ALERT = 'alert';
 
     private static array $db = [
         'Content' => 'HTMLText', // see getContent()

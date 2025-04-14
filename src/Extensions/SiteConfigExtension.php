@@ -4,20 +4,20 @@ namespace NZTA\SiteBanner\Extensions;
 
 use NZTA\SiteBanner\Models\SiteBanner;
 use SilverStripe\Core\Environment;
+use SilverStripe\Core\Extension;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
 use SilverStripe\Forms\GridField\GridFieldDeleteAction;
 use SilverStripe\Forms\GridField\GridFieldPageCount;
 use SilverStripe\Forms\GridField\GridFieldPaginator;
-use SilverStripe\ORM\DataExtension;
 
 /**
  * Allows editing of site banner data "globally".
  *
  * @property \SilverStripe\SiteConfig\SiteConfig|\NZTA\SiteBanner\Extensions\SiteConfigExtension $owner
  */
-class SiteConfigExtension extends DataExtension
+class SiteConfigExtension extends Extension
 {
 
     public function updateCMSFields(FieldList $fields): void

@@ -6,7 +6,8 @@ use NZTA\SiteBanner\Models\SiteBanner;
 use NZTA\SiteBanner\Templates\TemplateProvider;
 use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Dev\SapphireTest;
-use SilverStripe\ORM\ArrayList;
+use SilverStripe\Model\List\ArrayList;
+use SilverStripe\Model\List\SS_List;
 use SilverStripe\ORM\DataList;
 
 /**
@@ -21,7 +22,7 @@ class TemplateProviderTest extends SapphireTest
     {
         // Mock data list with 3 site banners 2 active, 1 inactive
         $mockDataList = new class(SiteBanner::class) extends DataList {
-            public function filterByCallback($callback)
+            public function filterByCallback(callable $callback): SS_List
             {
                 return ArrayList::create([
                     SiteBanner::create([
