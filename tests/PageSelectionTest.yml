@@ -1,0 +1,17 @@
+NZTA\SiteBanner\Models\SiteBanner:
+  banner1:
+    Sort: 1
+    Type: alert
+    Content: |
+      <p>Bold message text. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sodales posuere sed sit amet nibh.</p>
+  banner2:
+    Sort: 2
+    Type: info
+    Dismiss: 1
+    Content: |
+      <p><strong>Bold message text.</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sodales posuere sed sit <a href="/">amet nibh</a>.</p>
+  banner3:
+    Sort: 3
+    Type: warning
+    Content: |
+      <p><strong>Bold message text.</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sodales posuere sed sit <a href="/">amet nibh</a>.</p>
